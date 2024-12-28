@@ -193,7 +193,6 @@ class DraggableMobileActions extends StatefulWidget {
   _DraggableMobileActionsState createState() => _DraggableMobileActionsState();
 }
 
-/// floating buttons of back/home/recent actions for android
 class _DraggableMobileActionsState extends State<DraggableMobileActions> {
   bool isBlackScreen = false; // 控制黑屏状态
 
@@ -208,8 +207,8 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
           onPanUpdate: onPanUpdate,
           child: Stack(
             children: [
-              // 仅在安卓设备上显示黑屏效果，并且覆盖整个屏幕
-              if (isBlackScreen && Platform.isAndroid) 
+              // 添加黑屏效果，确保全屏覆盖
+              if (isBlackScreen)
                 GestureDetector(
                   onTap: () {
                     // 点击黑屏关闭黑屏
@@ -217,14 +216,14 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
                       isBlackScreen = false;
                     });
                   },
-                  child: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    color: Colors.black, // 黑屏效果，覆盖整个屏幕
-                    child: const Center(
-                      child: Text(
-                        '黑屏',
-                        style: TextStyle(color: Colors.white, fontSize: 24),
+                  child: Positioned.fill( // 使用 Positioned.fill 确保黑屏覆盖整个屏幕
+                    child: Container(
+                      color: Colors.black, // 黑屏效果
+                      child: const Center(
+                        child: Text(
+                          '黑屏',
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                        ),
                       ),
                     ),
                   ),
@@ -242,23 +241,26 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       IconButton(
-                          color: Colors.white,
-                          onPressed: widget.onBackPressed,
-                          splashRadius: kDesktopIconButtonSplashRadius,
-                          icon: const Icon(Icons.arrow_back),
-                          iconSize: 24 * widget.scale),
+                        color: Colors.white,
+                        onPressed: widget.onBackPressed,
+                        splashRadius: kDesktopIconButtonSplashRadius,
+                        icon: const Icon(Icons.arrow_back),
+                        iconSize: 24 * widget.scale,
+                      ),
                       IconButton(
-                          color: Colors.white,
-                          onPressed: widget.onHomePressed,
-                          splashRadius: kDesktopIconButtonSplashRadius,
-                          icon: const Icon(Icons.home),
-                          iconSize: 24 * widget.scale),
+                        color: Colors.white,
+                        onPressed: widget.onHomePressed,
+                        splashRadius: kDesktopIconButtonSplashRadius,
+                        icon: const Icon(Icons.home),
+                        iconSize: 24 * widget.scale,
+                      ),
                       IconButton(
-                          color: Colors.white,
-                          onPressed: widget.onRecentPressed,
-                          splashRadius: kDesktopIconButtonSplashRadius,
-                          icon: const Icon(Icons.more_horiz),
-                          iconSize: 24 * widget.scale),
+                        color: Colors.white,
+                        onPressed: widget.onRecentPressed,
+                        splashRadius: kDesktopIconButtonSplashRadius,
+                        icon: const Icon(Icons.more_horiz),
+                        iconSize: 24 * widget.scale,
+                      ),
                       const VerticalDivider(
                         width: 0,
                         thickness: 2,
@@ -266,11 +268,12 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
                         endIndent: 10,
                       ),
                       IconButton(
-                          color: Colors.white,
-                          onPressed: widget.onHidePressed,
-                          splashRadius: kDesktopIconButtonSplashRadius,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          iconSize: 24 * widget.scale),
+                        color: Colors.white,
+                        onPressed: widget.onHidePressed,
+                        splashRadius: kDesktopIconButtonSplashRadius,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        iconSize: 24 * widget.scale,
+                      ),
                       // 新增的黑屏按钮
                       IconButton(
                         color: Colors.white,
@@ -279,10 +282,7 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
                         iconSize: 24 * widget.scale,
                         onPressed: () {
                           setState(() {
-                            // 切换黑屏状态，只在安卓设备上生效
-                            if (Platform.isAndroid) {
-                              isBlackScreen = !isBlackScreen;
-                            }
+                            isBlackScreen = !isBlackScreen; // 切换黑屏状态
                           });
                         },
                       ),
@@ -297,6 +297,7 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
     );
   }
 }
+
 
 
 
