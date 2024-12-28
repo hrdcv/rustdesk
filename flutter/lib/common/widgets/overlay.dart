@@ -11,6 +11,7 @@ import '../../desktop/widgets/tabbar_widget.dart';
 import '../../models/chat_model.dart';
 import '../../models/model.dart';
 import 'chat_page.dart';
+import 'dart:io';
 
 class DraggableChatWindow extends StatelessWidget {
   const DraggableChatWindow(
@@ -183,23 +184,23 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
           onPanUpdate: onPanUpdate,
           child: Stack(
             children: [
-              // 添加全屏黑屏效果
-              if (isBlackScreen)
-                Positioned.fill(
-                  child: GestureDetector(
-                    onTap: () {
-                      // 点击黑屏关闭黑屏
-                      setState(() {
-                        isBlackScreen = false;
-                      });
-                    },
-                    child: Container(
-                      color: Colors.black, // 黑屏效果
-                      child: const Center(
-                        child: Text(
-                          '黑屏',
-                          style: TextStyle(color: Colors.white, fontSize: 24),
-                        ),
+              // 仅在安卓设备上显示黑屏效果，并且覆盖整个屏幕
+              if (isBlackScreen && Platform.isAndroid) 
+                GestureDetector(
+                  onTap: () {
+                    // 点击黑屏关闭黑屏
+                    setState(() {
+                      isBlackScreen = false;
+                    });
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.black, // 黑屏效果，覆盖整个屏幕
+                    child: const Center(
+                      child: Text(
+                        '黑屏',
+                        style: TextStyle(color: Colors.white, fontSize: 24),
                       ),
                     ),
                   ),
@@ -217,26 +218,23 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       IconButton(
-                        color: Colors.white,
-                        onPressed: widget.onBackPressed,
-                        splashRadius: kDesktopIconButtonSplashRadius,
-                        icon: const Icon(Icons.arrow_back),
-                        iconSize: 24 * widget.scale,
-                      ),
+                          color: Colors.white,
+                          onPressed: widget.onBackPressed,
+                          splashRadius: kDesktopIconButtonSplashRadius,
+                          icon: const Icon(Icons.arrow_back),
+                          iconSize: 24 * widget.scale),
                       IconButton(
-                        color: Colors.white,
-                        onPressed: widget.onHomePressed,
-                        splashRadius: kDesktopIconButtonSplashRadius,
-                        icon: const Icon(Icons.home),
-                        iconSize: 24 * widget.scale,
-                      ),
+                          color: Colors.white,
+                          onPressed: widget.onHomePressed,
+                          splashRadius: kDesktopIconButtonSplashRadius,
+                          icon: const Icon(Icons.home),
+                          iconSize: 24 * widget.scale),
                       IconButton(
-                        color: Colors.white,
-                        onPressed: widget.onRecentPressed,
-                        splashRadius: kDesktopIconButtonSplashRadius,
-                        icon: const Icon(Icons.more_horiz),
-                        iconSize: 24 * widget.scale,
-                      ),
+                          color: Colors.white,
+                          onPressed: widget.onRecentPressed,
+                          splashRadius: kDesktopIconButtonSplashRadius,
+                          icon: const Icon(Icons.more_horiz),
+                          iconSize: 24 * widget.scale),
                       const VerticalDivider(
                         width: 0,
                         thickness: 2,
@@ -244,12 +242,11 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
                         endIndent: 10,
                       ),
                       IconButton(
-                        color: Colors.white,
-                        onPressed: widget.onHidePressed,
-                        splashRadius: kDesktopIconButtonSplashRadius,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        iconSize: 24 * widget.scale,
-                      ),
+                          color: Colors.white,
+                          onPressed: widget.onHidePressed,
+                          splashRadius: kDesktopIconButtonSplashRadius,
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          iconSize: 24 * widget.scale),
                       // 新增的黑屏按钮
                       IconButton(
                         color: Colors.white,
@@ -258,7 +255,10 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
                         iconSize: 24 * widget.scale,
                         onPressed: () {
                           setState(() {
-                            isBlackScreen = !isBlackScreen; // 切换黑屏状态
+                            // 切换黑屏状态，只在安卓设备上生效
+                            if (Platform.isAndroid) {
+                              isBlackScreen = !isBlackScreen;
+                            }
                           });
                         },
                       ),
