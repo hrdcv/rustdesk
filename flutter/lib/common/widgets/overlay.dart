@@ -169,46 +169,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 /// floating buttons of back/home/recent actions for android
-class DraggableMobileActions extends StatefulWidget {
-  DraggableMobileActions(
-      {this.onBackPressed,
-      this.onRecentPressed,
-      this.onHomePressed,
-      this.onHidePressed,
-      required this.position,
-      required this.width,
-      required this.height,
-      required this.scale});
-
-  final double scale;
-  final DraggableKeyPosition position;
-  final double width;
-  final double height;
-  final VoidCallback? onBackPressed;
-  final VoidCallback? onHomePressed;
-  final VoidCallback? onRecentPressed;
-  final VoidCallback? onHidePressed;
-
-  @override
-  _DraggableMobileActionsState createState() => _DraggableMobileActionsState();
-}
-
 class _DraggableMobileActionsState extends State<DraggableMobileActions> {
   bool isBlackScreen = false; // 控制黑屏状态
 
   @override
   Widget build(BuildContext context) {
     return Draggable(
-        position: widget.position,
-        width: widget.scale * widget.width,
-        height: widget.scale * widget.height,
-        builder: (_, onPanUpdate) {
-          return GestureDetector(
-            onPanUpdate: onPanUpdate,
-            child: Stack(
-              children: [
-                // 添加黑屏效果
-                if (isBlackScreen)
+      position: widget.position,
+      width: widget.scale * widget.width,
+      height: widget.scale * widget.height,
+      builder: (_, onPanUpdate) {
+        return GestureDetector(
+          onPanUpdate: onPanUpdate,
+          child: Stack(
+            children: [
+              // 添加全屏黑屏效果
+              if (isBlackScreen)
                 Positioned.fill(
                   child: GestureDetector(
                     onTap: () {
@@ -227,70 +203,77 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
                       ),
                     ),
                   ),
-                // 按钮区域
-                Card(
-                  color: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: MyTheme.accent.withOpacity(0.4),
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(15 * widget.scale))),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        IconButton(
-                            color: Colors.white,
-                            onPressed: widget.onBackPressed,
-                            splashRadius: kDesktopIconButtonSplashRadius,
-                            icon: const Icon(Icons.arrow_back),
-                            iconSize: 24 * widget.scale),
-                        IconButton(
-                            color: Colors.white,
-                            onPressed: widget.onHomePressed,
-                            splashRadius: kDesktopIconButtonSplashRadius,
-                            icon: const Icon(Icons.home),
-                            iconSize: 24 * widget.scale),
-                        IconButton(
-                            color: Colors.white,
-                            onPressed: widget.onRecentPressed,
-                            splashRadius: kDesktopIconButtonSplashRadius,
-                            icon: const Icon(Icons.more_horiz),
-                            iconSize: 24 * widget.scale),
-                        const VerticalDivider(
-                          width: 0,
-                          thickness: 2,
-                          indent: 10,
-                          endIndent: 10,
-                        ),
-                        IconButton(
-                            color: Colors.white,
-                            onPressed: widget.onHidePressed,
-                            splashRadius: kDesktopIconButtonSplashRadius,
-                            icon: const Icon(Icons.arrow_back),
-                            iconSize: 24 * widget.scale),
-                        // 新增的黑屏按钮
-                        IconButton(
-                            color: Colors.white,
-                            splashRadius: kDesktopIconButtonSplashRadius,
-							icon: const Icon(Icons.home),
-							iconSize: 24 * widget.scale,
-							onPressed: () {
-                            setState(() {
-                              isBlackScreen = !isBlackScreen; // 切换黑屏状态
-                            });
-                          },
-                        ),
-                      ],
-                    ),
+                ),
+              // 按钮区域
+              Card(
+                color: Colors.transparent,
+                shadowColor: Colors.transparent,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: MyTheme.accent.withOpacity(0.4),
+                    borderRadius: BorderRadius.all(Radius.circular(15 * widget.scale)),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(
+                        color: Colors.white,
+                        onPressed: widget.onBackPressed,
+                        splashRadius: kDesktopIconButtonSplashRadius,
+                        icon: const Icon(Icons.arrow_back),
+                        iconSize: 24 * widget.scale,
+                      ),
+                      IconButton(
+                        color: Colors.white,
+                        onPressed: widget.onHomePressed,
+                        splashRadius: kDesktopIconButtonSplashRadius,
+                        icon: const Icon(Icons.home),
+                        iconSize: 24 * widget.scale,
+                      ),
+                      IconButton(
+                        color: Colors.white,
+                        onPressed: widget.onRecentPressed,
+                        splashRadius: kDesktopIconButtonSplashRadius,
+                        icon: const Icon(Icons.more_horiz),
+                        iconSize: 24 * widget.scale,
+                      ),
+                      const VerticalDivider(
+                        width: 0,
+                        thickness: 2,
+                        indent: 10,
+                        endIndent: 10,
+                      ),
+                      IconButton(
+                        color: Colors.white,
+                        onPressed: widget.onHidePressed,
+                        splashRadius: kDesktopIconButtonSplashRadius,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        iconSize: 24 * widget.scale,
+                      ),
+                      // 新增的黑屏按钮
+                      IconButton(
+                        color: Colors.white,
+                        splashRadius: kDesktopIconButtonSplashRadius,
+                        icon: const Icon(Icons.home),
+                        iconSize: 24 * widget.scale,
+                        onPressed: () {
+                          setState(() {
+                            isBlackScreen = !isBlackScreen; // 切换黑屏状态
+                          });
+                        },
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          );
-        });
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
+
 
 
 class DraggableKeyPosition {
