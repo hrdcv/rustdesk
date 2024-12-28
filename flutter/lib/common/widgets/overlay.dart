@@ -169,7 +169,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 /// floating buttons of back/home/recent actions for android
-class DraggableMobileActions extends StatelessWidget {
+class DraggableMobileActions extends StatefulWidget {
   DraggableMobileActions(
       {this.onBackPressed,
       this.onRecentPressed,
@@ -190,43 +190,72 @@ class DraggableMobileActions extends StatelessWidget {
   final VoidCallback? onHidePressed;
 
   @override
+  _DraggableMobileActionsState createState() => _DraggableMobileActionsState();
+}
+
+class _DraggableMobileActionsState extends State<DraggableMobileActions> {
+  bool isBlackScreen = false; // 控制黑屏状态
+
+  @override
   Widget build(BuildContext context) {
     return Draggable(
-        position: position,
-        width: scale * width,
-        height: scale * height,
+        position: widget.position,
+        width: widget.scale * widget.width,
+        height: widget.scale * widget.height,
         builder: (_, onPanUpdate) {
           return GestureDetector(
-              onPanUpdate: onPanUpdate,
-              child: Card(
+            onPanUpdate: onPanUpdate,
+            child: Stack(
+              children: [
+                // 添加黑屏效果
+                if (isBlackScreen)
+                  GestureDetector(
+                    onTap: () {
+                      // 点击黑屏关闭黑屏
+                      setState(() {
+                        isBlackScreen = false;
+                      });
+                    },
+                    child: Container(
+                      color: Colors.black, // 黑屏效果
+                      child: const Center(
+                        child: Text(
+                          '黑屏',
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                        ),
+                      ),
+                    ),
+                  ),
+                // 按钮区域
+                Card(
                   color: Colors.transparent,
                   shadowColor: Colors.transparent,
                   child: Container(
                     decoration: BoxDecoration(
                         color: MyTheme.accent.withOpacity(0.4),
                         borderRadius:
-                            BorderRadius.all(Radius.circular(15 * scale))),
+                            BorderRadius.all(Radius.circular(15 * widget.scale))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         IconButton(
                             color: Colors.white,
-                            onPressed: onBackPressed,
+                            onPressed: widget.onBackPressed,
                             splashRadius: kDesktopIconButtonSplashRadius,
                             icon: const Icon(Icons.arrow_back),
-                            iconSize: 24 * scale),
+                            iconSize: 24 * widget.scale),
                         IconButton(
                             color: Colors.white,
-                            onPressed: onHomePressed,
+                            onPressed: widget.onHomePressed,
                             splashRadius: kDesktopIconButtonSplashRadius,
                             icon: const Icon(Icons.home),
-                            iconSize: 24 * scale),
+                            iconSize: 24 * widget.scale),
                         IconButton(
                             color: Colors.white,
-                            onPressed: onRecentPressed,
+                            onPressed: widget.onRecentPressed,
                             splashRadius: kDesktopIconButtonSplashRadius,
                             icon: const Icon(Icons.more_horiz),
-                            iconSize: 24 * scale),
+                            iconSize: 24 * widget.scale),
                         const VerticalDivider(
                           width: 0,
                           thickness: 2,
@@ -235,16 +264,33 @@ class DraggableMobileActions extends StatelessWidget {
                         ),
                         IconButton(
                             color: Colors.white,
-                            onPressed: onHidePressed,
+                            onPressed: widget.onHidePressed,
                             splashRadius: kDesktopIconButtonSplashRadius,
-                            icon: const Icon(Icons.keyboard_arrow_down),
-                            iconSize: 24 * scale),
+                            icon: const Icon(Icons.arrow_back),
+                            iconSize: 24 * widget.scale),
+                        // 新增的黑屏按钮
+                        IconButton(
+                            color: Colors.white,
+                            splashRadius: kDesktopIconButtonSplashRadius,
+							icon: const Icon(Icons.home),
+							iconSize: 24 * widget.scale,
+							onPressed: () {
+                            setState(() {
+                              isBlackScreen = !isBlackScreen; // 切换黑屏状态
+                            });
+                          },
+                        ),
                       ],
                     ),
-                  )));
+                  ),
+                ),
+              ],
+            ),
+          );
         });
   }
 }
+
 
 class DraggableKeyPosition {
   final String key;
