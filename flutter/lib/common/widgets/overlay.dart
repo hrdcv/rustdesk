@@ -209,7 +209,8 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
               children: [
                 // 添加黑屏效果
                 if (isBlackScreen)
-                  GestureDetector(
+                Positioned.fill(
+                  child: GestureDetector(
                     onTap: () {
                       // 点击黑屏关闭黑屏
                       setState(() {
