@@ -169,6 +169,30 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
+class DraggableMobileActions extends StatefulWidget {
+  DraggableMobileActions(
+      {this.onBackPressed,
+      this.onRecentPressed,
+      this.onHomePressed,
+      this.onHidePressed,
+      required this.position,
+      required this.width,
+      required this.height,
+      required this.scale});
+
+  final double scale;
+  final DraggableKeyPosition position;
+  final double width;
+  final double height;
+  final VoidCallback? onBackPressed;
+  final VoidCallback? onHomePressed;
+  final VoidCallback? onRecentPressed;
+  final VoidCallback? onHidePressed;
+
+  @override
+  _DraggableMobileActionsState createState() => _DraggableMobileActionsState();
+}
+
 /// floating buttons of back/home/recent actions for android
 class _DraggableMobileActionsState extends State<DraggableMobileActions> {
   bool isBlackScreen = false; // 控制黑屏状态
