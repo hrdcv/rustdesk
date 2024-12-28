@@ -243,7 +243,7 @@ prebuild)
 	cargo install flutter_rust_bridge_codegen \
 		--version "${FLUTTER_RUST_BRIDGE_VERSION}" \
 		--features "uuid" \
-		--locked
+		--locked --force
 
 	# Populate native vcpkg dependencies
 
