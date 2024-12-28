@@ -233,7 +233,7 @@ prebuild)
 	cargo install \
 		cargo-ndk \
 		--version "${CARGO_NDK_VERSION}" \
-		--locked
+		--locked --force
 
 	# Install rust bridge generator
 
