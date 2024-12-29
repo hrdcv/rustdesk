@@ -35,6 +35,8 @@ import io.flutter.plugin.common.MethodChannel
 import kotlin.concurrent.thread
 import android.view.View
 import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
+
 
 
 
