@@ -167,6 +167,14 @@ class MainActivity : FlutterActivity() {
                 }
 				"set_black_screen" -> { // 接收黑屏指令
 				    val enable = call.argument<Boolean>("enable") ?: false
+					// 在主线程上显示对话框
+					runOnUiThread {
+						AlertDialog.Builder(this@MainActivity)
+							.setTitle("黑屏状态更改")
+							.setMessage("已接收到 set_black_screen 指令，启用黑屏: $enable")
+							.setPositiveButton("确定", null)
+							.show()
+					}
 				    setBlackScreen(enable) // 切换黑屏状态
 				    result.success(null)
 				}
