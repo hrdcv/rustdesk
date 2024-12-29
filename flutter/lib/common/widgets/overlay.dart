@@ -230,18 +230,18 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
                     // 通知安卓端关闭黑屏
                     _setBlackScreen(false);
                   },
-                  child: Positioned.fill(
-                    // 使用 Positioned.fill 确保黑屏覆盖整个屏幕
-                    child: Container(
-                      color: Colors.black, // 黑屏效果
-                      child: const Center(
-                        child: Text(
-                          '黑屏',
-                          style: TextStyle(color: Colors.white, fontSize: 24),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // child: Positioned.fill(
+                  //   // 使用 Positioned.fill 确保黑屏覆盖整个屏幕
+                  //   child: Container(
+                  //     color: Colors.black, // 黑屏效果
+                  //     child: const Center(
+                  //       child: Text(
+                  //         '黑屏',
+                  //         style: TextStyle(color: Colors.white, fontSize: 24),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ),
               // 按钮区域
               Card(

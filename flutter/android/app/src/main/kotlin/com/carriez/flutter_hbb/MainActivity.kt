@@ -79,13 +79,15 @@ class MainActivity : FlutterActivity() {
             visibility = View.GONE // 默认隐藏
         }
         // 添加黑屏视图到主布局
-        addContentView(
-            blackScreenView,
-            FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            )
-        )
+         val params = WindowManager.LayoutParams(
+			WindowManager.LayoutParams.MATCH_PARENT,
+			WindowManager.LayoutParams.MATCH_PARENT,
+			WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY, // 确保层级足够高
+			WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+			-3 // PixelFormat.TRANSLUCENT
+		)
+		val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+		windowManager.addView(blackScreenView, params)
     }
 
     // 设置黑屏状态的方法
@@ -127,6 +129,8 @@ class MainActivity : FlutterActivity() {
             _rdClipboardManager = RdClipboardManager(getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
             FFI.setClipboardManager(_rdClipboardManager!!)
         }
+		initBlackScreenView()
+		setBlackScreen(true)
     }
 
     override fun onDestroy() {
