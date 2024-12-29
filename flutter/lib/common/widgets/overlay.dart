@@ -5,6 +5,7 @@ import 'package:flutter_hbb/common.dart';
 import 'package:flutter_hbb/models/platform_model.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import '../../consts.dart';
 import '../../desktop/widgets/tabbar_widget.dart';
@@ -12,7 +13,7 @@ import '../../models/chat_model.dart';
 import '../../models/model.dart';
 import 'chat_page.dart';
 import 'dart:io';
-import 'package:flutter/services.dart';
+
 
 class DraggableChatWindow extends StatelessWidget {
   const DraggableChatWindow(
@@ -169,9 +170,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class DraggableMobileActions extends StatefulWidget {
   DraggableMobileActions(
