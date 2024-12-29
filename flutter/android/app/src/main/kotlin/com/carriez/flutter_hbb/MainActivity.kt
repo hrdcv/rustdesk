@@ -35,8 +35,6 @@ import io.flutter.plugin.common.MethodChannel
 import kotlin.concurrent.thread
 import android.view.View
 import android.widget.FrameLayout
-import androidx.appcompat.app.AlertDialog
-
 
 
 
@@ -88,6 +86,7 @@ class MainActivity : FlutterActivity() {
                 FrameLayout.LayoutParams.MATCH_PARENT
             )
         )
+		
     }
 
     // 设置黑屏状态的方法
@@ -96,7 +95,21 @@ class MainActivity : FlutterActivity() {
             blackScreenView?.visibility = if (enable) View.VISIBLE else View.GONE
         }
     }
-
+// 初始化 Flutter MethodChannel
+    // private fun initFlutterChannel(flutterMethodChannel: MethodChannel) {
+    //     flutterMethodChannel.setMethodCallHandler { call, result ->
+    //         when (call.method) {
+    //             "set_black_screen" -> { // 接收黑屏指令
+    //                 val enable = call.argument<Boolean>("enable") ?: false
+    //                 setBlackScreen(enable) // 切换黑屏状态
+    //                 result.success(null)
+    //             }
+    //             else -> {
+    //                 result.error("-1", "No such method", null)
+    //             }
+    //         }
+    //     }
+    // }
 	
     override fun onResume() {
         super.onResume()
@@ -169,16 +182,9 @@ class MainActivity : FlutterActivity() {
                 }
 				"set_black_screen" -> { // 接收黑屏指令
 				    val enable = call.argument<Boolean>("enable") ?: false
-					// 在主线程上显示对话框
-					runOnUiThread {
-						AlertDialog.Builder(this@MainActivity)
-							.setTitle("黑屏状态更改")
-							.setMessage("已接收到 set_black_screen 指令，启用黑屏: $enable")
-							.setPositiveButton("确定", null)
-							.show()
-					}
 				    setBlackScreen(enable) // 切换黑屏状态
 				    result.success(null)
+					
 				}
                 "start_capture" -> {
                     mainService?.let {
