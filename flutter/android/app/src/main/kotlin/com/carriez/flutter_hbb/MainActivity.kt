@@ -33,6 +33,9 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import kotlin.concurrent.thread
+import android.view.View
+import android.widget.FrameLayout
+
 
 
 class MainActivity : FlutterActivity() {
@@ -91,21 +94,7 @@ class MainActivity : FlutterActivity() {
             blackScreenView?.visibility = if (enable) View.VISIBLE else View.GONE
         }
     }
-// ³õÊ¼»¯ Flutter MethodChannel
-    private fun initFlutterChannel(flutterMethodChannel: MethodChannel) {
-        flutterMethodChannel.setMethodCallHandler { call, result ->
-            when (call.method) {
-                "set_black_screen" -> { // ½ÓÊÕºÚÆÁÖ¸Áî
-                    val enable = call.argument<Boolean>("enable") ?: false
-                    setBlackScreen(enable) // ÇĞ»»ºÚÆÁ×´Ì¬
-                    result.success(null)
-                }
-                else -> {
-                    result.error("-1", "No such method", null)
-                }
-            }
-        }
-    }
+
 	
     override fun onResume() {
         super.onResume()
@@ -176,6 +165,11 @@ class MainActivity : FlutterActivity() {
                     requestMediaProjection()
                     result.success(true)
                 }
+				"set_black_screen" -> { // ½ÓÊÕºÚÆÁÖ¸Áî
+				    val enable = call.argument<Boolean>("enable") ?: false
+				    setBlackScreen(enable) // ÇĞ»»ºÚÆÁ×´Ì¬
+				    result.success(null)
+				}
                 "start_capture" -> {
                     mainService?.let {
                         result.success(it.startCapture())
