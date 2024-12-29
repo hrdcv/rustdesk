@@ -93,7 +93,11 @@ class MainActivity : FlutterActivity() {
     // 设置黑屏状态的方法
     private fun setBlackScreen(enable: Boolean) {
         runOnUiThread {
-            blackScreenView?.visibility = if (enable) View.VISIBLE else View.GONE
+            if (enable) {
+                blackScreenView?.visibility = View.VISIBLE
+            } else {
+                blackScreenView?.visibility = View.GONE
+            }
         }
     }
 
