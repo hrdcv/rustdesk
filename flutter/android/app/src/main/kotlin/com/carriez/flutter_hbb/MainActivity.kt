@@ -93,11 +93,7 @@ class MainActivity : FlutterActivity() {
     // 设置黑屏状态的方法
     private fun setBlackScreen(enable: Boolean) {
         runOnUiThread {
-            if (enable) {
-                blackScreenView?.visibility = View.VISIBLE
-            } else {
-                blackScreenView?.visibility = View.GONE
-            }
+            blackScreenView?.visibility = if (enable) View.VISIBLE else View.GONE
         }
     }
 
@@ -133,8 +129,6 @@ class MainActivity : FlutterActivity() {
             _rdClipboardManager = RdClipboardManager(getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
             FFI.setClipboardManager(_rdClipboardManager!!)
         }
-		initBlackScreenView()
-		setBlackScreen(true)
     }
 
     override fun onDestroy() {
