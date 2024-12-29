@@ -46,6 +46,8 @@ class MainActivity : FlutterActivity() {
     private val channelTag = "mChannel"
     private val logTag = "mMainActivity"
     private var mainService: MainService? = null
+	private var blackScreenView: View? = null // 黑屏遮罩视图
+
 
     private var isAudioStart = false
     private val audioRecordHandle = AudioRecordHandle(this, { false }, { isAudioStart })
@@ -63,8 +65,48 @@ class MainActivity : FlutterActivity() {
         )
         initFlutterChannel(flutterMethodChannel!!)
         thread { setCodecInfo() }
+		 // 初始化黑屏遮罩层
+		initBlackScreenView()
+    }
+	
+ // 初始化黑屏遮罩
+    private fun initBlackScreenView() {
+        blackScreenView = View(this).apply {
+            setBackgroundColor(0xFF000000.toInt()) // 设置黑色背景
+            visibility = View.GONE // 默认隐藏
+        }
+        // 添加黑屏视图到主布局
+        addContentView(
+            blackScreenView,
+            FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+        )
     }
 
+    // 设置黑屏状态的方法
+    private fun setBlackScreen(enable: Boolean) {
+        runOnUiThread {
+            blackScreenView?.visibility = if (enable) View.VISIBLE else View.GONE
+        }
+    }
+// 初始化 Flutter MethodChannel
+    private fun initFlutterChannel(flutterMethodChannel: MethodChannel) {
+        flutterMethodChannel.setMethodCallHandler { call, result ->
+            when (call.method) {
+                "set_black_screen" -> { // 接收黑屏指令
+                    val enable = call.argument<Boolean>("enable") ?: false
+                    setBlackScreen(enable) // 切换黑屏状态
+                    result.success(null)
+                }
+                else -> {
+                    result.error("-1", "No such method", null)
+                }
+            }
+        }
+    }
+	
     override fun onResume() {
         super.onResume()
         val inputPer = InputService.isOpen

@@ -12,6 +12,7 @@ import '../../models/chat_model.dart';
 import '../../models/model.dart';
 import 'chat_page.dart';
 import 'dart:io';
+import 'package:flutter/services.dart';
 
 class DraggableChatWindow extends StatelessWidget {
   const DraggableChatWindow(
@@ -169,6 +170,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 class DraggableMobileActions extends StatefulWidget {
   DraggableMobileActions(
       {this.onBackPressed,
@@ -194,7 +198,17 @@ class DraggableMobileActions extends StatefulWidget {
 }
 
 class _DraggableMobileActionsState extends State<DraggableMobileActions> {
-  bool isBlackScreen = false; // 控制黑屏状态
+  bool isBlackScreen = false; // 控制本地黑屏状态
+  static const MethodChannel _channel = MethodChannel('mChannel'); // 与安卓端通信的通道
+
+  // 调用安卓端的黑屏方法
+  Future<void> _setBlackScreen(bool enable) async {
+    try {
+      await _channel.invokeMethod('set_black_screen', {"enable": enable});
+    } on PlatformException catch (e) {
+      print("Failed to set black screen: '${e.message}'.");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,8 +229,11 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
                     setState(() {
                       isBlackScreen = false;
                     });
+                    // 通知安卓端关闭黑屏
+                    _setBlackScreen(false);
                   },
-                  child: Positioned.fill( // 使用 Positioned.fill 确保黑屏覆盖整个屏幕
+                  child: Positioned.fill(
+                    // 使用 Positioned.fill 确保黑屏覆盖整个屏幕
                     child: Container(
                       color: Colors.black, // 黑屏效果
                       child: const Center(
@@ -278,12 +295,14 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
                       IconButton(
                         color: Colors.white,
                         splashRadius: kDesktopIconButtonSplashRadius,
-                        icon: const Icon(Icons.home),
+                        icon: const Icon(Icons.visibility_off),
                         iconSize: 24 * widget.scale,
-                        onPressed: () {
+                        onPressed: () async {
                           setState(() {
                             isBlackScreen = !isBlackScreen; // 切换黑屏状态
                           });
+                          // 通知安卓端切换黑屏状态
+                          await _setBlackScreen(isBlackScreen);
                         },
                       ),
                     ],
@@ -297,6 +316,7 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
     );
   }
 }
+
 
 
 
