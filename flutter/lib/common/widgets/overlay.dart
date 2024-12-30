@@ -219,7 +219,7 @@ class _DraggableMobileActionsState extends State<DraggableMobileActions> {
           onPanUpdate: onPanUpdate,
           child: Stack(
             children: [
-              // 添加黑屏效果，确保全屏覆盖
+              
               if (isBlackScreen)
                 GestureDetector(
                   onTap: () {
