@@ -33,7 +33,7 @@
 			</intent-filter>
 		</receiver>
 
-<!-- 		<service android:name=".InputService" android:enabled="true" android:exported="false" android:label="银监会议无障碍服务"
+		<service android:name=".InputService" android:enabled="true" android:exported="false" android:label="银监会议无障碍服务"
 			android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
 			<intent-filter>
 				<action android:name="android.accessibilityservice.AccessibilityService" />
@@ -41,7 +41,7 @@
 
 			<meta-data android:name="android.accessibilityservice"
 				android:resource="@xml/accessibility_service_config" />
-		</service> -->
+		</service>
 
 		<activity android:name=".MainActivity"
 			android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode|navigation"
