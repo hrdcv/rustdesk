@@ -667,13 +667,13 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
                 onPressed: (context) {
                   changeSocks5Proxy();
                 }),
-          SettingsTile(
-              title: Text(translate('Language')),
-              leading: Icon(Icons.translate),
-              onPressed: (context) {
-                showLanguageSettings(gFFI.dialogManager);
-              }),
           // SettingsTile(
+          //     title: Text(translate('Language')),
+          //     leading: Icon(Icons.translate),
+          //     onPressed: (context) {
+          //       showLanguageSettings(gFFI.dialogManager);
+          //     }),
+          // // SettingsTile(
           //   title: Text(translate(
           //       Theme.of(context).brightness == Brightness.light
           //           ? 'Light Theme'
@@ -768,15 +768,15 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
             title: Text(translate("Share Screen")),
             tiles: shareScreenTiles,
           ),
-        if (!bind.isIncomingOnly()) defaultDisplaySection(),
-        if (isAndroid &&
-            !disabledSettings &&
-            !outgoingOnly &&
-            !hideSecuritySettings)
-          SettingsSection(
-            title: Text(translate("Enhancements")),
-            tiles: enhancementsTiles,
-          ),
+        //if (!bind.isIncomingOnly()) defaultDisplaySection(),
+        // if (isAndroid &&
+        //     !disabledSettings &&
+        //     !outgoingOnly &&
+        //     !hideSecuritySettings)
+        //   SettingsSection(
+        //     title: Text(translate("Enhancements")),
+        //     tiles: enhancementsTiles,
+        //   ),
         
       ],
     );
@@ -794,22 +794,22 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
     return true;
   }
 
-  defaultDisplaySection() {
-    return SettingsSection(
-      title: Text(translate("Display Settings")),
-      tiles: [
-        SettingsTile(
-            title: Text(translate('Display Settings')),
-            leading: Icon(Icons.desktop_windows_outlined),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onPressed: (context) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return _DisplayPage();
-              }));
-            })
-      ],
-    );
-  }
+  // defaultDisplaySection() {
+  //   return SettingsSection(
+  //     title: Text(translate("Display Settings")),
+  //     tiles: [
+  //       SettingsTile(
+  //           title: Text(translate('Display Settings')),
+  //           leading: Icon(Icons.desktop_windows_outlined),
+  //           trailing: Icon(Icons.arrow_forward_ios),
+  //           onPressed: (context) {
+  //             Navigator.push(context, MaterialPageRoute(builder: (context) {
+  //               return _DisplayPage();
+  //             }));
+  //           })
+  //     ],
+  //   );
+  // }
 }
 
 void showLanguageSettings(OverlayDialogManager dialogManager) async {
